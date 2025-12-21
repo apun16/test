@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import Landing from './components/Landing'
 import Header from './components/Header'
@@ -6,7 +6,6 @@ import Game from './components/Game'
 import Results from './components/Results'
 import HowToPlay from './components/HowToPlay'
 import { useGame } from './hooks/useGame'
-import { getTotalGames } from './services/supabase'
 import styles from './App.module.css'
 
 /**
@@ -16,7 +15,6 @@ import styles from './App.module.css'
 function App() {
   const [showLanding, setShowLanding] = useState(true)
   const [showHelp, setShowHelp] = useState(false)
-  const [totalGames, setTotalGames] = useState(null)
   
   const {
     puzzle,
@@ -34,17 +32,6 @@ function App() {
     getHint,
     clearHint,
   } = useGame()
-
-  // Fetch total games from Supabase on mount and after each game
-  useEffect(() => {
-    const fetchStats = async () => {
-      const count = await getTotalGames()
-      if (count !== null) {
-        setTotalGames(count)
-      }
-    }
-    fetchStats()
-  }, [gameState]) // Refetch when game state changes (after submission)
 
   const handlePlay = useCallback(() => {
     setShowLanding(false)
@@ -101,11 +88,6 @@ function App() {
           <span className={styles.footerText}>
             connect two words in 6 steps or fewer
           </span>
-          {totalGames !== null && (
-            <span className={styles.gameCount}>
-              {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played
-            </span>
-          )}
           <div className={styles.footerMeta}>
             <span className={styles.copyright}>© 2025</span>
             <a 
