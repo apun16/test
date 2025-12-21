@@ -103,7 +103,7 @@ function App() {
           </span>
           {totalGames !== null && (
             <span className={styles.gameCount}>
-              {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played
+              {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played on this site!!!
             </span>
           )}
         </footer>
