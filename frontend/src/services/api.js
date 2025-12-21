@@ -3,8 +3,8 @@
  * Handles all communication with the Flask backend.
  */
 
-// Use environment variable for production, fallback to /api for development (proxied by Vite)
-const API_BASE = import.meta.env.VITE_API_URL || '/api'
+// Always use /api - Vite proxies in dev, Vercel routes in production
+const API_BASE = '/api'
 
 /**
  * Generic fetch wrapper with error handling.

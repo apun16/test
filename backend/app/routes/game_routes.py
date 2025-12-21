@@ -4,20 +4,24 @@ Game API routes for Six Degrees.
 Handles puzzle generation, validation, and submission.
 """
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from app.services.game_engine import GameEngine
 
 game_bp = Blueprint("game", __name__)
 
 # Initialize game engine (singleton pattern)
 _engine = None
+_engine_db_path = None
 
 
 def get_engine() -> GameEngine:
     """Get or create game engine instance."""
-    global _engine
-    if _engine is None:
-        _engine = GameEngine()
+    global _engine, _engine_db_path
+    db_path = current_app.config.get("DATABASE", "data/sixdegrees.db")
+    # Recreate engine if db_path changed
+    if _engine is None or _engine_db_path != db_path:
+        _engine = GameEngine(db_path=db_path)
+        _engine_db_path = db_path
     return _engine
 
 
