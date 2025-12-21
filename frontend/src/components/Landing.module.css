@@ -23,7 +23,7 @@
 }
 
 .landing.visible .networkNode {
-  opacity: 0.15;
+  opacity: 0.7;
 }
 
 /* Network graph background */
@@ -67,12 +67,12 @@
 
 @keyframes pulse {
   0%, 100% {
-    opacity: 0.15;
+    opacity: 0.7;
     r: 0.8;
   }
   50% {
-    opacity: 0.3;
-    r: 1;
+    opacity: 1;
+    r: 1.2;
   }
 }
 
