@@ -80,9 +80,9 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  padding: var(--space-xl) var(--space-lg);
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-md);
   background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -109,7 +109,8 @@
   position: relative;
   z-index: 1;
   flex: 1;
-  max-width: 160px;
+  min-width: 0; /* Allow flex shrinking */
+  max-width: 45%;
 }
 
 .wordLabel {
@@ -120,11 +121,12 @@
   background: var(--bg-primary);
   padding: 2px 8px;
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .wordText {
   font-family: var(--font-serif);
-  font-size: 1.75rem;
+  font-size: clamp(1rem, 5vw, 1.75rem);
   font-style: italic;
   font-weight: 400;
   color: var(--accent);
@@ -132,6 +134,10 @@
   text-shadow: 0 0 30px rgba(232, 200, 122, 0.2);
   text-align: center;
   word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  line-height: 1.2;
 }
 
 /* Arrow connector */
@@ -142,11 +148,12 @@
   gap: var(--space-xs);
   position: relative;
   z-index: 1;
-  padding: 0 var(--space-sm);
+  flex-shrink: 0;
+  padding: 0 var(--space-xs);
 }
 
 .connectorLine {
-  width: 60px;
+  width: clamp(30px, 10vw, 60px);
   height: 2px;
   background: linear-gradient(90deg, var(--accent) 0%, var(--text-muted) 50%, var(--accent) 100%);
   border-radius: 1px;
@@ -164,9 +171,10 @@
 }
 
 .connectorSteps {
-  font-size: 0.625rem;
+  font-size: clamp(0.5rem, 1.5vw, 0.625rem);
   color: var(--text-muted);
   letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 /* Progress indicator */
@@ -479,21 +487,20 @@
   }
   
   .puzzle {
-    padding: var(--space-lg) var(--space-md);
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-  }
-  
-  .wordText {
-    font-size: 1.35rem;
+    padding: var(--space-lg) var(--space-sm);
+    gap: var(--space-xs);
   }
   
   .wordBox {
-    max-width: 120px;
+    max-width: 40%;
   }
   
   .connectorLine {
-    width: 40px;
+    width: 30px;
+  }
+  
+  .connectorSteps {
+    font-size: 0.5rem;
   }
   
   .form {
@@ -524,11 +531,7 @@
 
 @media (max-width: 360px) {
   .puzzle {
-    padding: var(--space-md);
-  }
-  
-  .wordText {
-    font-size: 1.2rem;
+    padding: var(--space-md) var(--space-xs);
   }
   
   .puzzleConnector {
@@ -536,6 +539,11 @@
   }
   
   .connectorLine {
-    width: 30px;
+    width: 20px;
+  }
+  
+  .connectorLine::after {
+    border-width: 3px;
+    right: -3px;
   }
 }
