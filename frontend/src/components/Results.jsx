@@ -1,5 +1,4 @@
-import { useState, useRef } from 'react'
-import html2canvas from 'html2canvas'
+import { useState } from 'react'
 import styles from './Results.module.css'
 
 /**
@@ -9,7 +8,6 @@ import styles from './Results.module.css'
 function Results({ result, onPlayAgain }) {
   const [copied, setCopied] = useState(false)
   const [sharing, setSharing] = useState(false)
-  const shareCardRef = useRef(null)
   
   const {
     start_word,
@@ -23,6 +21,25 @@ function Results({ result, onPlayAgain }) {
 
   const isValid = player_length > 0 && score > 0
   const beatAlgorithm = isValid && player_length < optimal_length
+
+  // Calculate how many words were connected correctly (for partial credit on broken paths)
+  const getConnectedCount = () => {
+    if (isValid) return player_length
+    // For broken paths, count how many steps matched with optimal path
+    const fullPath = [start_word, ...player_path, end_word]
+    let connected = 0
+    for (let i = 0; i < fullPath.length - 1; i++) {
+      // Check if this word appears in optimal path in sequence
+      const optIdx = optimal_path.indexOf(fullPath[i])
+      const nextOptIdx = optimal_path.indexOf(fullPath[i + 1])
+      if (optIdx !== -1 && nextOptIdx !== -1 && nextOptIdx === optIdx + 1) {
+        connected++
+      }
+    }
+    return connected
+  }
+
+  const connectedCount = getConnectedCount()
 
   const getScoreLabel = () => {
     if (!isValid) return 'PATH NOT CONNECTED'
@@ -59,46 +76,32 @@ function Results({ result, onPlayAgain }) {
 
   const handleShare = async () => {
     setSharing(true)
+    const shareText = generateShareText()
     
     try {
-      // Generate image from the share card
-      if (shareCardRef.current) {
-        const canvas = await html2canvas(shareCardRef.current, {
-          backgroundColor: '#1a1814',
-          scale: 2,
+      // Try native share (Messages, Notes, etc.)
+      if (navigator.share) {
+        await navigator.share({ 
+          text: shareText 
         })
-        
-        // Convert to blob
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
-        
-        // Try native share with image
-        if (navigator.share && navigator.canShare) {
-          const file = new File([blob], '6degrees-result.png', { type: 'image/png' })
-          const shareData = { 
-            files: [file],
-            text: generateShareText()
-          }
-          
-          if (navigator.canShare(shareData)) {
-            await navigator.share(shareData)
-            setSharing(false)
-            return
-          }
-        }
-        
-        // Fallback: copy text to clipboard
-        await navigator.clipboard.writeText(generateShareText())
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
+        setSharing(false)
+        return
       }
+      
+      // Fallback: copy to clipboard
+      await navigator.clipboard.writeText(shareText)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      // Final fallback
-      try {
-        await navigator.clipboard.writeText(generateShareText())
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      } catch {
-        console.error('Share failed:', err)
+      // User cancelled share or error - try clipboard
+      if (err.name !== 'AbortError') {
+        try {
+          await navigator.clipboard.writeText(shareText)
+          setCopied(true)
+          setTimeout(() => setCopied(false), 2000)
+        } catch {
+          console.error('Share failed:', err)
+        }
       }
     }
     
@@ -106,54 +109,58 @@ function Results({ result, onPlayAgain }) {
   }
 
   const generateShareText = () => {
-    // Create visual chain representation
-    const maxSteps = 6
-    const chainVisual = []
+    // Status line with emoji
+    let statusLine = ''
+    let chainVisual = ''
     
-    // Build the visual grid
-    for (let i = 0; i < maxSteps; i++) {
-      if (i < player_length) {
-        if (!isValid) {
-          chainVisual.push('🟥') // Red for broken path
-        } else if (beatAlgorithm) {
-          chainVisual.push('🟪') // Purple for beating algorithm
-        } else if (player_length === optimal_length) {
-          chainVisual.push('🟩') // Green for perfect
-        } else if (i < optimal_length) {
-          chainVisual.push('🟨') // Yellow for optimal range
-        } else {
-          chainVisual.push('🟧') // Orange for extra steps
-        }
+    if (!isValid) {
+      // For broken paths, show partial credit
+      if (connectedCount > 0) {
+        statusLine = `🔗 ${connectedCount} link${connectedCount > 1 ? 's' : ''} connected`
+        // Show green for connected, red for broken
+        for (let i = 0; i < connectedCount; i++) chainVisual += '🟩'
+        chainVisual += '🟥'
       } else {
-        chainVisual.push('⬜') // Empty for unused
+        statusLine = '❌ No connections'
+      }
+    } else {
+      // Build the visual grid for valid paths
+      const maxSteps = 6
+      for (let i = 0; i < maxSteps; i++) {
+        if (i < player_length) {
+          if (beatAlgorithm) {
+            chainVisual += '🟪' // Purple for beating algorithm
+          } else if (player_length === optimal_length) {
+            chainVisual += '🟩' // Green for perfect
+          } else if (i < optimal_length) {
+            chainVisual += '🟨' // Yellow for optimal range
+          } else {
+            chainVisual += '🟧' // Orange for extra steps
+          }
+        } else {
+          chainVisual += '⬜' // Empty for unused
+        }
+      }
+      
+      if (beatAlgorithm) {
+        statusLine = `🤖💥 Beat the algorithm!`
+      } else if (player_length === optimal_length) {
+        statusLine = '🎯 Perfect!'
+      } else {
+        statusLine = `📊 ${player_length}/${optimal_length} steps`
       }
     }
     
-    // Status line with emoji
-    let statusLine = ''
-    if (!isValid) {
-      statusLine = '❌ Broken chain'
-    } else if (beatAlgorithm) {
-      statusLine = `🤖💥 Beat the algorithm!`
-    } else if (player_length === optimal_length) {
-      statusLine = '🎯 Perfect!'
-    } else {
-      statusLine = `📊 ${player_length}/${optimal_length} steps`
-    }
-    
-    // Build the share text with visual flair
-    return `┌─────────────────┐
-│  6°  DEGREES    │
-└─────────────────┘
+    // Build the share text
+    return `6° DEGREES
 
 ${start_word} → ${end_word}
-
-${chainVisual.join('')}
+${chainVisual}
 
 ${statusLine}
-⭐ Score: ${score}/110
+Score: ${score}/110
 
-🔗 test-pearl-five-18.vercel.app`
+Play: test-pearl-five-18.vercel.app`
   }
 
   const getMessage = () => {
@@ -198,28 +205,6 @@ ${statusLine}
 
   return (
     <div className={styles.results}>
-      {/* Hidden share card for image generation */}
-      <div className={styles.shareCardWrapper}>
-        <div ref={shareCardRef} className={styles.shareCard}>
-          <div className={styles.shareCardHeader}>
-            <span className={styles.shareCardLogo}>6°</span>
-            <span className={styles.shareCardTitle}>DEGREES</span>
-          </div>
-          <div className={styles.shareCardPuzzle}>
-            {start_word} → {end_word}
-          </div>
-          <div className={styles.shareCardSquares}>
-            {getChainSquares()}
-          </div>
-          <div className={styles.shareCardStats}>
-            <span className={styles.shareCardScore}>{score}</span>
-            <span className={styles.shareCardLabel}>{getScoreLabel()}</span>
-          </div>
-          <div className={styles.shareCardSteps}>
-            {isValid ? `${player_length}/${optimal_length} steps` : 'Not connected'}
-          </div>
-        </div>
-      </div>
 
       {/* Score display */}
       <div className={styles.scoreSection}>
@@ -233,10 +218,21 @@ ${statusLine}
         <div className={styles.scoreLabel}>{getScoreLabel()}</div>
       </div>
 
-      {/* Visual chain display */}
-      <div className={styles.chainVisual}>
-        {getChainSquares()}
-      </div>
+      {/* Visual chain display - only show for valid paths */}
+      {isValid && (
+        <div className={styles.chainVisual}>
+          {getChainSquares()}
+        </div>
+      )}
+      
+      {/* Show partial credit for broken paths */}
+      {!isValid && connectedCount > 0 && (
+        <div className={styles.partialCredit}>
+          <span className={styles.partialCreditText}>
+            {connectedCount} link{connectedCount > 1 ? 's' : ''} connected
+          </span>
+        </div>
+      )}
 
       {/* Puzzle summary */}
       <div className={styles.puzzle}>
