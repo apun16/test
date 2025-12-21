@@ -46,10 +46,8 @@ export function useGame() {
     setIsLoading(true)
     setError(null)
     
-    // Build current chain including start word
-    const currentChain = chain.length > 0 
-      ? chain 
-      : [puzzle.start_word]
+    // Build current chain including start word for validation
+    const currentChain = [puzzle.start_word, ...chain]
     
     try {
       const validation = await gameAPI.validateWord(word.trim(), currentChain)
