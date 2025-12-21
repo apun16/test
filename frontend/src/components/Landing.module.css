@@ -17,72 +17,63 @@
   transform: translateY(0);
 }
 
-.landing.visible .orb {
-  opacity: 0.6;
-}
-
-.landing.visible .line {
+.landing.visible .networkLine {
   stroke-dashoffset: 0;
-}
-
-/* Floating orbs background */
-.orbs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.orb {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  opacity: 0;
-  box-shadow: 
-    0 0 20px var(--accent),
-    0 0 40px rgba(232, 200, 122, 0.3);
-  animation: float 8s ease-in-out infinite;
-  animation-delay: var(--delay);
-  transition: opacity 1s ease;
-  transition-delay: var(--delay);
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(10px, -15px) scale(1.1);
-  }
-  50% {
-    transform: translate(-5px, 10px) scale(0.9);
-  }
-  75% {
-    transform: translate(-15px, -5px) scale(1.05);
-  }
-}
-
-/* Connection lines SVG */
-.connections {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  max-width: 600px;
-  max-height: 600px;
   opacity: 0.15;
 }
 
-.line {
+.landing.visible .networkNode {
+  opacity: 0.4;
+}
+
+/* Network graph background */
+.network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.networkLine {
   stroke: var(--accent);
-  stroke-width: 1;
+  stroke-width: 0.15;
   stroke-linecap: round;
-  stroke-dasharray: 500;
-  stroke-dashoffset: 500;
-  transition: stroke-dashoffset 1.5s ease;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  opacity: 0;
+  transition: stroke-dashoffset 2s ease, opacity 1s ease;
   transition-delay: var(--delay);
+}
+
+.networkNode {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  transition-delay: var(--delay);
+  filter: drop-shadow(0 0 2px var(--accent));
+}
+
+/* Pulsing animation for random nodes */
+.networkNode:nth-child(3n) {
+  animation: pulse 3s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.networkNode:nth-child(5n) {
+  animation: pulse 4s ease-in-out infinite;
+  animation-delay: calc(var(--delay) + 1s);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    r: 0.8;
+  }
+  50% {
+    opacity: 0.8;
+    r: 1.2;
+  }
 }
 
 /* Main content */
@@ -216,7 +207,7 @@
   transform: translateX(4px);
 }
 
-/* Example hint at bottom */
+/* Example hint at bottom - cycling chains */
 .hint {
   display: flex;
   align-items: center;
@@ -226,17 +217,27 @@
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
+  min-width: 320px;
+  justify-content: center;
 }
 
 .hintIcon {
   color: var(--accent);
   font-size: 0.5rem;
+  flex-shrink: 0;
 }
 
 .hintText {
   font-size: 0.7rem;
   color: var(--text-muted);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.hintText.fading {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
 /* Responsive */
@@ -259,7 +260,17 @@
   }
   
   .hint {
-    display: none;
+    min-width: auto;
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .hintText {
+    font-size: 0.6rem;
   }
 }
 
+@media (max-width: 360px) {
+  .hint {
+    display: none;
+  }
+}
