@@ -78,31 +78,33 @@ function Results({ result, onPlayAgain }) {
     return 'var(--text-muted)'
   }
 
+  // Check if native share is available (mobile devices)
+  const canShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
+
   const handleShare = async () => {
     setSharing(true)
     const shareText = generateShareText()
+    const fullShareText = shareText + '\n\nPlay: https://test-pearl-five-18.vercel.app'
     
     try {
-      // Try native share (Messages, Notes, etc.)
-      if (navigator.share) {
+      // Try native share (Messages, Notes, etc.) - only works on mobile/tablets
+      if (canShare) {
         await navigator.share({ 
-          title: '6° Degrees',
-          text: shareText,
-          url: 'https://test-pearl-five-18.vercel.app'
+          text: fullShareText
         })
         setSharing(false)
         return
       }
       
-      // Fallback: copy to clipboard
-      await navigator.clipboard.writeText(shareText)
+      // Desktop: copy to clipboard
+      await navigator.clipboard.writeText(fullShareText)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       // User cancelled share or error - try clipboard
       if (err.name !== 'AbortError') {
         try {
-          await navigator.clipboard.writeText(shareText)
+          await navigator.clipboard.writeText(fullShareText)
           setCopied(true)
           setTimeout(() => setCopied(false), 2000)
         } catch {
@@ -285,7 +287,7 @@ Score: ${score}`
           onClick={handleShare}
           disabled={sharing}
         >
-          {sharing ? '...' : copied ? '✓ copied!' : '📤 share'}
+          {sharing ? '...' : copied ? '✓ copied!' : canShare ? '📤 share' : '📋 copy'}
         </button>
         <button className="btn btn--primary" onClick={onPlayAgain}>
           play again
