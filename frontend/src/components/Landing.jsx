@@ -13,12 +13,6 @@ const EXAMPLE_CHAINS = [
   'FIRE → HEAT → SUN → STAR → SPACE',
 ]
 
-// Difficulty descriptions
-const DIFFICULTIES = [
-  { id: 'easy', label: 'Easy', desc: '2-3 steps' },
-  { id: 'medium', label: 'Medium', desc: '3-4 steps' },
-  { id: 'hard', label: 'Hard', desc: '4-5 steps' },
-]
 
 // Network node positions for background (avoiding center where content is)
 const NODES = [
@@ -73,7 +67,6 @@ function Landing({ onPlay }) {
   const [isVisible, setIsVisible] = useState(false)
   const [chainIndex, setChainIndex] = useState(0)
   const [isFading, setIsFading] = useState(false)
-  const [selectedDifficulty, setSelectedDifficulty] = useState('medium')
   
   useEffect(() => {
     // Trigger entrance animation
@@ -92,10 +85,6 @@ function Landing({ onPlay }) {
     }, 3000)
     return () => clearInterval(interval)
   }, [])
-
-  const handlePlay = () => {
-    onPlay(selectedDifficulty)
-  }
 
   return (
     <div className={`${styles.landing} ${isVisible ? styles.visible : ''}`}>
@@ -143,22 +132,8 @@ function Landing({ onPlay }) {
           every word links to another. find the path.
         </p>
 
-        {/* Difficulty selector */}
-        <div className={styles.difficultySelector}>
-          {DIFFICULTIES.map(diff => (
-            <button
-              key={diff.id}
-              className={`${styles.difficultyBtn} ${selectedDifficulty === diff.id ? styles.selected : ''}`}
-              onClick={() => setSelectedDifficulty(diff.id)}
-            >
-              <span className={styles.difficultyLabel}>{diff.label}</span>
-              <span className={styles.difficultyDesc}>{diff.desc}</span>
-            </button>
-          ))}
-        </div>
-
         {/* Play button */}
-        <button className={styles.playBtn} onClick={handlePlay}>
+        <button className={styles.playBtn} onClick={onPlay}>
           <span className={styles.playText}>play</span>
           <span className={styles.playArrow}>→</span>
         </button>
