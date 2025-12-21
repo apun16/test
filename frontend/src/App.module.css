@@ -12,7 +12,7 @@
   position: fixed;
   inset: 0;
   background-image: 
-    radial-gradient(circle, rgba(221, 199, 143, 0.18) 0.75px, transparent 0.5px);
+    radial-gradient(circle, rgba(221, 199, 143, 0.2) 0.75px, transparent 0.5px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;

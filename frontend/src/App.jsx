@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import Landing from './components/Landing'
 import Header from './components/Header'
 import Game from './components/Game'
@@ -63,46 +64,54 @@ function App() {
 
   // Show landing page
   if (showLanding) {
-    return <Landing onPlay={handlePlay} />
+    return (
+      <>
+        <Landing onPlay={handlePlay} />
+        <Analytics />
+      </>
+    )
   }
 
   return (
-    <div className={styles.app}>
-      <Header onHelpClick={handleToggleHelp} onNewGame={handleNewGame} />
-      
-      <main className={styles.main}>
-        {showHelp ? (
-          <HowToPlay onClose={handleToggleHelp} />
-        ) : gameState === 'results' && result ? (
-          <Results result={result} onPlayAgain={handleNewGame} />
-        ) : (
-          <Game
-            puzzle={puzzle}
-            chain={chain}
-            error={error}
-            isLoading={isLoading}
-            hint={hint}
-            hintsUsed={hintsUsed}
-            onAddWord={addWord}
-            onRemoveWord={removeLastWord}
-            onSubmit={submitSolution}
-            onGetHint={getHint}
-            onClearHint={clearHint}
-          />
-        )}
-      </main>
-      
-      <footer className={styles.footer}>
-        <span className={styles.footerText}>
-          connect two words in 6 steps or fewer
-        </span>
-        {totalGames !== null && (
-          <span className={styles.gameCount}>
-            {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played
+    <>
+      <div className={styles.app}>
+        <Header onHelpClick={handleToggleHelp} onNewGame={handleNewGame} />
+        
+        <main className={styles.main}>
+          {showHelp ? (
+            <HowToPlay onClose={handleToggleHelp} />
+          ) : gameState === 'results' && result ? (
+            <Results result={result} onPlayAgain={handleNewGame} />
+          ) : (
+            <Game
+              puzzle={puzzle}
+              chain={chain}
+              error={error}
+              isLoading={isLoading}
+              hint={hint}
+              hintsUsed={hintsUsed}
+              onAddWord={addWord}
+              onRemoveWord={removeLastWord}
+              onSubmit={submitSolution}
+              onGetHint={getHint}
+              onClearHint={clearHint}
+            />
+          )}
+        </main>
+        
+        <footer className={styles.footer}>
+          <span className={styles.footerText}>
+            connect two words in 6 steps or fewer
           </span>
-        )}
-      </footer>
-    </div>
+          {totalGames !== null && (
+            <span className={styles.gameCount}>
+              {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played
+            </span>
+          )}
+        </footer>
+      </div>
+      <Analytics />
+    </>
   )
 }
 

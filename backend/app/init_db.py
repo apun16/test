@@ -11,6 +11,13 @@ from app.models.word_graph import WordGraph
 # Word associations - curated semantic connections
 # Each tuple: (word1, word2) represents a valid connection
 WORD_ASSOCIATIONS = [
+
+    # Connecting Words
+    ("USE", "TOOL"), ("USE", "MAKE"), ("USE", "HELP"),
+    ("MAKE", "CREATE"), ("MAKE", "BUILD"), ("GO", "MOVE"), ("GO", "TRAVEL"), 
+    ("DO", "ACTION"), ("DO", "WORK"), ("HAVE", "OWN"), ("OWN", "POSSESS"), ("OWN", "HAVE"),
+    ("GET", "TAKE"), ("GIVE", "TAKE"), ("TAKE", "GIVE"), ("GIVE", "GET"), 
+
     # Nature & Elements
     ("OCEAN", "WAVE"), ("WAVE", "BEACH"), ("BEACH", "SAND"),
     ("SAND", "DESERT"), ("DESERT", "CAMEL"), ("CAMEL", "HUMP"),
@@ -109,7 +116,10 @@ WORD_ASSOCIATIONS = [
     ("FEAR", "DARK"), ("DARK", "NIGHT"), ("BRAVE", "HERO"),
     ("HERO", "CAPE"), ("CAPE", "FLY"), ("PEACE", "QUIET"),
     ("QUIET", "LIBRARY"), ("HOPE", "LIGHT"), ("LIGHT", "BRIGHT"),
-    
+    ("HAPPY", "GLAD"), ("SAD", "UNHAPPY"),
+    ("ANGRY", "MAD"), ("AFRAID", "SCARED"), ("SCARED", "FEAR"),
+    ("TIRED", "SLEEPY"), ("EXCITED", "HAPPY"),
+
     # Time & Space
     ("TIME", "CLOCK"), ("CLOCK", "TICK"), ("TICK", "BUG"),
     ("BUG", "INSECT"), ("INSECT", "ANT"), ("ANT", "SMALL"),
@@ -191,7 +201,7 @@ WORD_ASSOCIATIONS = [
     ("JAPAN", "ASIA"), ("JAPAN", "COUNTRY"), ("SUSHI", "FISH"),
     ("BREAD", "FOOD"), ("BREAD", "TOAST"), ("TOAST", "BREAKFAST"),
     ("CAKE", "BIRTHDAY"), ("BIRTHDAY", "PARTY"), ("CAKE", "SWEET"),
-    ("ICE CREAM", "COLD"), ("ICE CREAM", "SWEET"), ("CHOCOLATE", "SWEET"),
+    ("ICE CREAM", "COLD"), ("ICE CREAM", "SWEET"), ("ICE CREAM", "CREAMY"), ("CHOCOLATE", "SWEET"),
     ("CHOCOLATE", "BROWN"), ("CHOCOLATE", "CANDY"), ("COOKIE", "SWEET"),
     ("COOKIE", "BAKE"), ("BAKE", "OVEN"), ("OVEN", "KITCHEN"),
     ("SALT", "TASTE"), ("TASTE", "TONGUE"), ("TONGUE", "MOUTH"),
@@ -199,6 +209,15 @@ WORD_ASSOCIATIONS = [
     ("VEGETABLE", "FOOD"), ("VEGETABLE", "GREEN"), ("VEGETABLE", "PLANT"),
     ("SALAD", "VEGETABLE"), ("SALAD", "HEALTHY"), ("HEALTHY", "HEALTH"),
     
+    # Size & Quantity
+    ("BIG", "LARGE"), ("BIG", "SIZE"), ("BIG", "HUGE"),
+    ("SMALL", "LITTLE"), ("SMALL", "TINY"), ("SMALL", "SIZE"),
+    ("LONG", "LENGTH"), ("LONG", "TIME"), ("LONG", "TALL"),
+    ("SHORT", "SMALL"), ("SHORT", "BRIEF"), ("SHORT", "HEIGHT"),
+    ("TALL", "HIGH"), ("TALL", "HEIGHT"), ("TALL", "LONG"),
+    ("HIGH", "LOW"), ("HIGH", "TALL"), ("SKY", "HIGH"), ("HIGH", "UP"),
+    ("LOW", "DOWN"), ("LOW", "GROUND"), ("LOW", "SMALL"),
+
     # Animals expanded
     ("LION", "ANIMAL"), ("LION", "KING"), ("LION", "AFRICA"),
     ("AFRICA", "CONTINENT"), ("CONTINENT", "EARTH"), ("EARTH", "PLANET"),
@@ -329,7 +348,7 @@ WORD_ASSOCIATIONS = [
     ("JACKET", "CLOTHES"), ("BLANKET", "WARM"), ("BLANKET", "BED"),
     ("PILLOW", "BED"), ("PILLOW", "SOFT"), ("TOWEL", "DRY"),
     ("TOWEL", "BATHROOM"), ("BATHROOM", "SHOWER"), ("SHOWER", "WATER"),
-    ("SOAP", "CLEAN"), ("CLEAN", "DIRTY"), ("DIRTY", "MUD"),
+    ("SOAP", "CLEAN"), ("CLEAN", "DIRTY"), ("DIRTY", "MUD"), ("DIRT", "MUD"),
     ("MUD", "RAIN"), ("MUD", "BROWN"), ("TOOTHBRUSH", "TEETH"),
     ("TOOTHBRUSH", "CLEAN"), ("SHAMPOO", "HAIR"), ("HAIR", "HEAD"),
     
@@ -371,6 +390,16 @@ WORD_ASSOCIATIONS = [
     ("CLIFF", "ROCK"), ("WATERFALL", "WATER"), ("WATERFALL", "FALL"),
     ("LAKE", "WATER"), ("LAKE", "FISH"), ("POND", "WATER"),
     ("POND", "SMALL"), ("STREAM", "WATER"), ("CREEK", "WATER"),
+
+    # Pop Culture
+    ("HARRY POTTER", "MAGIC"),
+    ("STAR WARS", "SPACE"),
+    ("MARVEL", "HERO"), ("MARVEL", "AVENGERS"),
+    ("DISNEY", "MOVIE"),
+    ("YOUTUBE", "VIDEO"), 
+    ("GOOGLE", "SEARCH"), 
+    ("TIKTOK", "VIDEO"), ("TIKTOK", "TIKTOKER"), 
+
 ]
 
 
