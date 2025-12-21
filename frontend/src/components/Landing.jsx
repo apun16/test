@@ -13,14 +13,14 @@ const EXAMPLE_CHAINS = [
   'FIRE → HEAT → SUN → STAR → SPACE',
 ]
 
-// Network node positions for background
+// Network node positions for background (avoiding center where content is)
 const NODES = [
   { x: 10, y: 15 }, { x: 25, y: 8 }, { x: 40, y: 20 },
   { x: 55, y: 10 }, { x: 70, y: 18 }, { x: 85, y: 12 },
-  { x: 15, y: 35 }, { x: 30, y: 42 }, { x: 50, y: 38 },
-  { x: 65, y: 45 }, { x: 80, y: 35 }, { x: 92, y: 40 },
-  { x: 8, y: 55 }, { x: 22, y: 60 }, { x: 38, y: 52 },
-  { x: 55, y: 58 }, { x: 72, y: 55 }, { x: 88, y: 62 },
+  { x: 15, y: 35 }, { x: 25, y: 42 }, { x: 8, y: 45 },
+  { x: 75, y: 42 }, { x: 80, y: 35 }, { x: 92, y: 40 },
+  { x: 8, y: 55 }, { x: 18, y: 60 }, { x: 12, y: 52 },
+  { x: 88, y: 58 }, { x: 82, y: 55 }, { x: 92, y: 62 },
   { x: 12, y: 75 }, { x: 28, y: 82 }, { x: 45, y: 78 },
   { x: 60, y: 85 }, { x: 75, y: 72 }, { x: 90, y: 80 },
   { x: 5, y: 90 }, { x: 35, y: 92 }, { x: 62, y: 95 }, { x: 95, y: 88 },
