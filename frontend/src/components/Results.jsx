@@ -19,8 +19,10 @@ function Results({ result, onPlayAgain }) {
     score,
   } = result
 
-  const isValid = player_length > 0 && score > 0
+  // Path is valid if player_length > 0 (score can be > 0 for partial credit now)
+  const isValid = player_length > 0
   const beatAlgorithm = isValid && player_length < optimal_length
+  const hasPartialCredit = !isValid && score > 0
 
   // Calculate how many words were connected correctly (for partial credit on broken paths)
   const getConnectedCount = () => {
@@ -42,6 +44,7 @@ function Results({ result, onPlayAgain }) {
   const connectedCount = getConnectedCount()
 
   const getScoreLabel = () => {
+    if (!isValid && hasPartialCredit) return 'PARTIAL CREDIT'
     if (!isValid) return 'PATH NOT CONNECTED'
     if (score >= 110) return 'YOU BEAT THE ALGORITHM!'
     if (score === 100) return 'PERFECT'
@@ -66,6 +69,7 @@ function Results({ result, onPlayAgain }) {
   }
 
   const getScoreColor = () => {
+    if (!isValid && hasPartialCredit) return '#fbbf24' // Yellow for partial
     if (!isValid) return 'var(--text-muted)'
     if (score >= 110) return '#ff6b6b'
     if (score >= 90) return 'var(--success)'
@@ -82,7 +86,9 @@ function Results({ result, onPlayAgain }) {
       // Try native share (Messages, Notes, etc.)
       if (navigator.share) {
         await navigator.share({ 
-          text: shareText 
+          title: '6° Degrees',
+          text: shareText,
+          url: 'https://test-pearl-five-18.vercel.app'
         })
         setSharing(false)
         return
@@ -115,10 +121,11 @@ function Results({ result, onPlayAgain }) {
     
     if (!isValid) {
       // For broken paths, show partial credit
-      if (connectedCount > 0) {
-        statusLine = `🔗 ${connectedCount} link${connectedCount > 1 ? 's' : ''} connected`
+      const linksConnected = Math.floor(score / 10)
+      if (linksConnected > 0) {
+        statusLine = `🔗 ${linksConnected} link${linksConnected > 1 ? 's' : ''} connected (+${score} pts)`
         // Show green for connected, red for broken
-        for (let i = 0; i < connectedCount; i++) chainVisual += '🟩'
+        for (let i = 0; i < linksConnected; i++) chainVisual += '🟩'
         chainVisual += '🟥'
       } else {
         statusLine = '❌ No connections'
@@ -151,16 +158,14 @@ function Results({ result, onPlayAgain }) {
       }
     }
     
-    // Build the share text
+    // Build the share text (URL is passed separately in share API)
     return `6° DEGREES
 
 ${start_word} → ${end_word}
 ${chainVisual}
 
 ${statusLine}
-Score: ${score}/110
-
-Play: test-pearl-five-18.vercel.app`
+Score: ${score}`
   }
 
   const getMessage = () => {
@@ -226,10 +231,10 @@ Play: test-pearl-five-18.vercel.app`
       )}
       
       {/* Show partial credit for broken paths */}
-      {!isValid && connectedCount > 0 && (
+      {hasPartialCredit && (
         <div className={styles.partialCredit}>
           <span className={styles.partialCreditText}>
-            {connectedCount} link{connectedCount > 1 ? 's' : ''} connected
+            {Math.floor(score / 10)} link{Math.floor(score / 10) > 1 ? 's' : ''} connected (+{score} pts)
           </span>
         </div>
       )}

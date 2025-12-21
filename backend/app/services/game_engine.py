@@ -249,7 +249,9 @@ class GameEngine:
             score = self.calculate_score(player_length, optimal_length)
         else:
             player_length = -1
-            score = self.SCORE_FAILED
+            # Calculate partial score: 10 points per valid connection
+            valid_connections = self._count_valid_connections(full_path)
+            score = valid_connections * 10  # 10 points per correct link
         
         result = GameResult(
             start_word=start_word,
@@ -339,6 +341,23 @@ class GameEngine:
             "hint_level": hint_level
         }
     
+    def _count_valid_connections(self, path: List[str]) -> int:
+        """
+        Count how many valid connections exist in a path.
+        Used for partial scoring on broken paths.
+        
+        Args:
+            path: List of words in the path
+            
+        Returns:
+            Number of valid consecutive connections
+        """
+        valid_count = 0
+        for i in range(len(path) - 1):
+            if self.graph.are_connected(path[i], path[i + 1]):
+                valid_count += 1
+        return valid_count
+
     def _save_game(self, result: GameResult) -> None:
         """Save game result to database and log it."""
         import logging
