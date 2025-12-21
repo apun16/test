@@ -124,24 +124,27 @@
 
 /* Icon buttons */
 .iconBtn {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
+  border: 1px solid var(--accent-dim);
   border-radius: 50%;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: rgba(232, 200, 122, 0.05);
   transition: all var(--transition-fast);
+  box-shadow: 0 0 10px rgba(232, 200, 122, 0.1);
 }
 
 .iconBtn:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(232, 200, 122, 0.05);
-  transform: scale(1.05);
+  background: rgba(232, 200, 122, 0.15);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(232, 200, 122, 0.2);
 }
 
 .iconBtn:active {
