@@ -110,3 +110,31 @@
   font-style: italic;
 }
 
+/* Responsive */
+@media (max-width: 480px) {
+  .chain {
+    padding: var(--space-md);
+    min-height: 100px;
+  }
+  
+  .word {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.75rem;
+  }
+  
+  .line, .lineDashed {
+    height: 12px;
+  }
+  
+  .stepNumber {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .word {
+    font-size: 0.7rem;
+    padding: var(--space-xs) var(--space-sm);
+  }
+}
+

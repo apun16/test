@@ -242,16 +242,32 @@
 
 /* Responsive */
 @media (max-width: 480px) {
+  .content {
+    padding: var(--space-md);
+  }
+  
   .six {
-    font-size: 6rem;
+    font-size: 5rem;
   }
   
   .degree {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+  
+  .title {
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    margin-bottom: var(--space-xl);
   }
   
   .tagline {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    max-width: 250px;
+  }
+  
+  .description {
+    font-size: 0.7rem;
+    margin-bottom: var(--space-xl);
   }
   
   .playBtn {
@@ -261,15 +277,68 @@
   
   .hint {
     min-width: auto;
+    max-width: 100%;
     padding: var(--space-sm) var(--space-md);
+    margin-top: var(--space-xl);
   }
   
   .hintText {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
   }
 }
 
 @media (max-width: 360px) {
+  .six {
+    font-size: 4rem;
+  }
+  
+  .degree {
+    font-size: 1.5rem;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+  
+  .hint {
+    display: none;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .content {
+    padding: var(--space-sm);
+  }
+  
+  .logo {
+    margin-bottom: 0;
+  }
+  
+  .six {
+    font-size: 3rem;
+  }
+  
+  .degree {
+    font-size: 1rem;
+  }
+  
+  .title {
+    margin-bottom: var(--space-md);
+  }
+  
+  .tagline {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .description {
+    margin-bottom: var(--space-md);
+  }
+  
   .hint {
     display: none;
   }

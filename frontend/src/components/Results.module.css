@@ -152,12 +152,61 @@
 }
 
 @media (max-width: 480px) {
+  .results {
+    gap: var(--space-lg);
+  }
+  
   .comparison {
     grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
   
   .score {
-    font-size: 4rem;
+    font-size: 3.5rem;
+  }
+  
+  .scoreEmoji {
+    font-size: 2.5rem;
+  }
+  
+  .scoreLabel {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .puzzle {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .word {
+    font-size: 1rem;
+  }
+  
+  .pathSection {
+    padding: var(--space-sm);
+  }
+  
+  .pathWord {
+    font-size: 0.7rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .score {
+    font-size: 3rem;
+  }
+  
+  .message {
+    font-size: 0.75rem;
   }
 }
 

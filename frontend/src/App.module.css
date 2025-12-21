@@ -1,5 +1,6 @@
 .app {
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
   display: flex;
   flex-direction: column;
 }
@@ -11,6 +12,7 @@
   align-items: center;
   padding: var(--space-xl) var(--space-lg);
   padding-bottom: var(--space-2xl);
+  overflow-x: hidden;
 }
 
 .footer {
@@ -20,6 +22,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  flex-shrink: 0;
 }
 
 .footerText {
@@ -33,5 +36,32 @@
   font-size: 0.75rem;
   color: var(--accent);
   font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .main {
+    padding: var(--space-md) var(--space-sm);
+    padding-bottom: var(--space-lg);
+  }
+  
+  .footer {
+    padding: var(--space-md);
+  }
+  
+  .footerText {
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .gameCount {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .footerText {
+    display: none;
+  }
 }
 

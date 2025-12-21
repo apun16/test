@@ -249,13 +249,39 @@
 }
 
 @media (max-width: 480px) {
+  .game {
+    gap: var(--space-lg);
+  }
+  
   .puzzle {
-    gap: var(--space-md);
+    gap: var(--space-sm);
     padding: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .wordContainer {
+    min-width: 80px;
   }
   
   .word {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+  
+  .label {
+    font-size: 0.5rem;
+  }
+  
+  .arrow {
+    font-size: 0.875rem;
+  }
+  
+  .form {
+    flex-direction: column;
+  }
+  
+  .addBtn {
+    width: 100%;
   }
   
   .actions {
@@ -264,6 +290,24 @@
   
   .hintBtn {
     width: 100%;
+  }
+  
+  .hintBox {
+    padding: var(--space-sm);
+  }
+  
+  .maskedWord {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .word {
+    font-size: 1rem;
+  }
+  
+  .puzzle {
+    padding: var(--space-sm);
   }
 }
 
