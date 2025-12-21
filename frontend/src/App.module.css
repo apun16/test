@@ -56,6 +56,33 @@
   font-weight: 500;
 }
 
+.footerMeta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.copyright {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.githubLink {
+  color: var(--text-muted);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.githubLink:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .main {
@@ -74,6 +101,14 @@
   
   .gameCount {
     font-size: 0.625rem;
+  }
+  
+  .footerMeta {
+    gap: var(--space-xs);
+  }
+  
+  .copyright {
+    font-size: 0.5rem;
   }
 }
 
