@@ -1,0 +1,112 @@
+.chain {
+  width: 100%;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word {
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.startWord {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.chainWord {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.chainWord:hover {
+  border-color: var(--error);
+}
+
+.chainWord:hover .removeHint {
+  opacity: 1;
+}
+
+.removeHint {
+  position: absolute;
+  right: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  color: var(--error);
+  font-size: 1rem;
+  transition: opacity var(--transition-fast);
+}
+
+.targetWord {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+}
+
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xs) 0;
+}
+
+.line {
+  width: 1px;
+  height: 16px;
+  background: var(--accent-dim);
+}
+
+.lineDashed {
+  width: 1px;
+  height: 16px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--text-muted) 0px,
+    var(--text-muted) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+}
+
+.stepNumber {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.emptyText {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+

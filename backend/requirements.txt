@@ -1,0 +1,14 @@
+# Flask framework
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# Database
+# SQLite3 is built into Python
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Utilities
+python-dotenv==1.0.0
+
