@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import html2canvas from 'html2canvas'
 import styles from './Results.module.css'
 
 /**
@@ -7,6 +8,8 @@ import styles from './Results.module.css'
  */
 function Results({ result, onPlayAgain }) {
   const [copied, setCopied] = useState(false)
+  const [sharing, setSharing] = useState(false)
+  const shareCardRef = useRef(null)
   
   const {
     start_word,
@@ -55,31 +58,51 @@ function Results({ result, onPlayAgain }) {
   }
 
   const handleShare = async () => {
-    const shareText = generateShareText()
+    setSharing(true)
     
-    if (navigator.share) {
+    try {
+      // Generate image from the share card
+      if (shareCardRef.current) {
+        const canvas = await html2canvas(shareCardRef.current, {
+          backgroundColor: '#1a1814',
+          scale: 2,
+        })
+        
+        // Convert to blob
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+        
+        // Try native share with image
+        if (navigator.share && navigator.canShare) {
+          const file = new File([blob], '6degrees-result.png', { type: 'image/png' })
+          const shareData = { 
+            files: [file],
+            text: generateShareText()
+          }
+          
+          if (navigator.canShare(shareData)) {
+            await navigator.share(shareData)
+            setSharing(false)
+            return
+          }
+        }
+        
+        // Fallback: copy text to clipboard
+        await navigator.clipboard.writeText(generateShareText())
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      }
+    } catch (err) {
+      // Final fallback
       try {
-        await navigator.share({ text: shareText })
-        return
-      } catch (err) {
-        // Fall through to clipboard
+        await navigator.clipboard.writeText(generateShareText())
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch {
+        console.error('Share failed:', err)
       }
     }
     
-    try {
-      await navigator.clipboard.writeText(shareText)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      const textArea = document.createElement('textarea')
-      textArea.value = shareText
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
+    setSharing(false)
   }
 
   const generateShareText = () => {
@@ -148,8 +171,56 @@ ${statusLine}
     return `${diff} step${diff > 1 ? 's' : ''} longer than optimal.`
   }
 
+  // Generate visual chain squares
+  const getChainSquares = () => {
+    const maxSteps = 6
+    const squares = []
+    
+    for (let i = 0; i < maxSteps; i++) {
+      let colorClass = styles.squareEmpty
+      if (i < player_length) {
+        if (!isValid) {
+          colorClass = styles.squareRed
+        } else if (beatAlgorithm) {
+          colorClass = styles.squarePurple
+        } else if (player_length === optimal_length) {
+          colorClass = styles.squareGreen
+        } else if (i < optimal_length) {
+          colorClass = styles.squareYellow
+        } else {
+          colorClass = styles.squareOrange
+        }
+      }
+      squares.push(<div key={i} className={`${styles.square} ${colorClass}`} />)
+    }
+    return squares
+  }
+
   return (
     <div className={styles.results}>
+      {/* Hidden share card for image generation */}
+      <div className={styles.shareCardWrapper}>
+        <div ref={shareCardRef} className={styles.shareCard}>
+          <div className={styles.shareCardHeader}>
+            <span className={styles.shareCardLogo}>6°</span>
+            <span className={styles.shareCardTitle}>DEGREES</span>
+          </div>
+          <div className={styles.shareCardPuzzle}>
+            {start_word} → {end_word}
+          </div>
+          <div className={styles.shareCardSquares}>
+            {getChainSquares()}
+          </div>
+          <div className={styles.shareCardStats}>
+            <span className={styles.shareCardScore}>{score}</span>
+            <span className={styles.shareCardLabel}>{getScoreLabel()}</span>
+          </div>
+          <div className={styles.shareCardSteps}>
+            {isValid ? `${player_length}/${optimal_length} steps` : 'Not connected'}
+          </div>
+        </div>
+      </div>
+
       {/* Score display */}
       <div className={styles.scoreSection}>
         <div className={styles.scoreEmoji}>{getScoreEmoji()}</div>
@@ -160,6 +231,11 @@ ${statusLine}
           {score}
         </div>
         <div className={styles.scoreLabel}>{getScoreLabel()}</div>
+      </div>
+
+      {/* Visual chain display */}
+      <div className={styles.chainVisual}>
+        {getChainSquares()}
       </div>
 
       {/* Puzzle summary */}
@@ -206,8 +282,9 @@ ${statusLine}
         <button 
           className={`btn ${styles.shareBtn} ${copied ? styles.copied : ''}`} 
           onClick={handleShare}
+          disabled={sharing}
         >
-          {copied ? '✓ copied!' : '📋 share'}
+          {sharing ? '...' : copied ? '✓ copied!' : '📤 share'}
         </button>
         <button className="btn btn--primary" onClick={onPlayAgain}>
           play again

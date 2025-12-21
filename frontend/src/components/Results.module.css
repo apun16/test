@@ -8,6 +8,134 @@
   animation: fadeIn 0.4s ease;
 }
 
+/* Share card - hidden off-screen but rendered for capture */
+.shareCardWrapper {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+
+.shareCard {
+  width: 400px;
+  padding: 32px;
+  background: linear-gradient(145deg, #1a1814 0%, #252118 100%);
+  border: 2px solid rgba(232, 200, 122, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.shareCardHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.shareCardLogo {
+  font-size: 48px;
+  font-weight: 300;
+  font-style: italic;
+  color: #e8c87a;
+  text-shadow: 0 0 20px rgba(232, 200, 122, 0.4);
+}
+
+.shareCardTitle {
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.shareCardPuzzle {
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.shareCardSquares {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.shareCardStats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.shareCardScore {
+  font-size: 48px;
+  font-weight: 600;
+  color: #e8c87a;
+  line-height: 1;
+}
+
+.shareCardLabel {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+.shareCardSteps {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Visual chain squares */
+.chainVisual {
+  display: flex;
+  gap: 8px;
+  margin-bottom: var(--space-sm);
+}
+
+.square {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+
+.square:hover {
+  transform: scale(1.1);
+}
+
+.squareEmpty {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.squareGreen {
+  background: linear-gradient(145deg, #4ade80, #22c55e);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+.squareYellow {
+  background: linear-gradient(145deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+}
+
+.squareOrange {
+  background: linear-gradient(145deg, #fb923c, #f97316);
+  box-shadow: 0 0 10px rgba(251, 146, 60, 0.4);
+}
+
+.squareRed {
+  background: linear-gradient(145deg, #f87171, #ef4444);
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.4);
+}
+
+.squarePurple {
+  background: linear-gradient(145deg, #c084fc, #a855f7);
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+}
+
 .scoreSection {
   text-align: center;
 }
@@ -172,6 +300,15 @@
   .scoreLabel {
     font-size: 0.75rem;
     letter-spacing: 0.15em;
+  }
+  
+  .chainVisual {
+    gap: 6px;
+  }
+  
+  .square {
+    width: 28px;
+    height: 28px;
   }
   
   .puzzle {
