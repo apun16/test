@@ -46,9 +46,9 @@ function App() {
     fetchStats()
   }, [gameState]) // Refetch when game state changes (after submission)
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = useCallback((difficulty = 'medium') => {
     setShowLanding(false)
-    startNewGame()
+    startNewGame(difficulty)
   }, [startNewGame])
 
   const handleToggleHelp = useCallback(() => {
