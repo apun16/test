@@ -19,11 +19,11 @@
 
 .landing.visible .networkLine {
   stroke-dashoffset: 0;
-  opacity: 0.15;
+  opacity: 0.06;
 }
 
 .landing.visible .networkNode {
-  opacity: 0.4;
+  opacity: 0.15;
 }
 
 /* Network graph background */
@@ -67,12 +67,12 @@
 
 @keyframes pulse {
   0%, 100% {
-    opacity: 0.4;
+    opacity: 0.15;
     r: 0.8;
   }
   50% {
-    opacity: 0.8;
-    r: 1.2;
+    opacity: 0.3;
+    r: 1;
   }
 }
 
