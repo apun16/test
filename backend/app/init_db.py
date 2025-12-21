@@ -145,7 +145,7 @@ WORD_ASSOCIATIONS = [
     ("MOON", "NIGHT"), ("MOON", "STAR"), ("MOON", "LIGHT"),
     ("WATER", "OCEAN"), ("WATER", "BLUE"), ("WATER", "WET"),
     ("FIRE", "HOT"), ("FIRE", "LIGHT"), ("FIRE", "ORANGE"),
-    ("TREE", "GREEN"), ("TREE", "WOOD"), ("WOOD", "FIRE"),
+    ("TREE", "GREEN"), ("TREE", "WOOD"), ("WOOD", "FIRE"), ("WOOD", "BARK"),
     ("BIRD", "SING"), ("BIRD", "SKY"), ("BIRD", "FEATHER"),
     ("DOG", "ANIMAL"), ("CAT", "ANIMAL"), ("FISH", "ANIMAL"),
     ("ANIMAL", "NATURE"), ("NATURE", "TREE"), ("NATURE", "OCEAN"),

@@ -127,7 +127,7 @@ def init_database(db_path: str):
         ("FIRE", "HEAT"), ("FIRE", "BURN"), ("FIRE", "SMOKE"), ("FIRE", "RED"),
         ("WIND", "BLOW"), ("WIND", "AIR"), ("WIND", "STORM"), ("WIND", "COLD"),
         ("EARTH", "SOIL"), ("EARTH", "PLANET"), ("EARTH", "GROUND"), ("EARTH", "NATURE"),
-        ("TREE", "LEAF"), ("TREE", "WOOD"), ("TREE", "FOREST"), ("TREE", "GREEN"),
+        ("TREE", "LEAF"), ("TREE", "WOOD"), ("TREE", "FOREST"), ("TREE", "GREEN"), ("WOOD", "BARK"),
         ("FLOWER", "PETAL"), ("FLOWER", "GARDEN"), ("FLOWER", "SMELL"), ("FLOWER", "BEE"),
         ("MOUNTAIN", "HIGH"), ("MOUNTAIN", "SNOW"), ("MOUNTAIN", "CLIMB"), ("MOUNTAIN", "ROCK"),
         ("FOREST", "TREE"), ("FOREST", "ANIMAL"), ("FOREST", "GREEN"), ("FOREST", "NATURE"),
