@@ -6,7 +6,7 @@ import Game from './components/Game'
 import Results from './components/Results'
 import HowToPlay from './components/HowToPlay'
 import { useGame } from './hooks/useGame'
-import { statsAPI } from './services/api'
+import { getTotalGames } from './services/supabase'
 import styles from './App.module.css'
 
 /**
@@ -35,14 +35,12 @@ function App() {
     clearHint,
   } = useGame()
 
-  // Fetch total games on mount and after each game
+  // Fetch total games from Supabase on mount and after each game
   useEffect(() => {
     const fetchStats = async () => {
-      try {
-        const stats = await statsAPI.getStats()
-        setTotalGames(stats.total_games)
-      } catch (err) {
-        console.error('Failed to fetch stats:', err)
+      const count = await getTotalGames()
+      if (count !== null) {
+        setTotalGames(count)
       }
     }
     fetchStats()

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { gameAPI } from '../services/api'
+import { saveGame } from '../services/supabase'
 
 /**
  * Game state management hook.
@@ -93,6 +94,9 @@ export function useGame() {
       )
       setResult(gameResult)
       setGameState('results')
+      
+      // Save to Supabase for persistent tracking (fire and forget)
+      saveGame(gameResult).catch(() => {})
     } catch (err) {
       setError('Failed to submit solution. Please try again.')
       console.error('Error submitting solution:', err)
