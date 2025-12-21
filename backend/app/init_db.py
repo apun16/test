@@ -222,8 +222,11 @@ WORD_ASSOCIATIONS = [
     ("SALAD", "VEGETABLE"), ("SALAD", "HEALTHY"), ("HEALTHY", "HEALTH"),
     
     # Size & Quantity
-    ("BIG", "LARGE"), ("BIG", "SIZE"), ("BIG", "HUGE"),
-    ("SMALL", "LITTLE"), ("SMALL", "TINY"), ("SMALL", "SIZE"),
+    ("BIG", "LARGE"), ("BIG", "SIZE"), ("BIG", "HUGE"), ("BIG", "TINY"), ("BIG", "SMALL"),
+    ("SMALL", "LITTLE"), ("SMALL", "TINY"), ("SMALL", "SIZE"), ("SMALL", "BIG"), ("SMALL", "LARGE"),
+    ("LARGE", "SMALL"), ("LARGE", "TINY"), ("LARGE", "HUGE"), ("LARGE", "BIG"),
+    ("TINY", "SMALL"), ("TINY", "BIG"), ("TINY", "LARGE"), ("TINY", "HUGE"),
+    ("HUGE", "TINY"), ("HUGE", "SMALL"), ("HUGE", "BIG"), ("HUGE", "LARGE"),
     ("LONG", "LENGTH"), ("LONG", "TIME"), ("LONG", "TALL"),
     ("SHORT", "SMALL"), ("SHORT", "BRIEF"), ("SHORT", "HEIGHT"),
     ("TALL", "HIGH"), ("TALL", "HEIGHT"), ("TALL", "LONG"),

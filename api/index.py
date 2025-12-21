@@ -399,8 +399,11 @@ def init_database(db_path: str):
         ("RING", "CIRCLE"), ("RING", "FINGER"), ("RING", "WEDDING"), ("RING", "GOLD"),
         
         # Size & Quantity
-        ("BIG", "LARGE"), ("BIG", "SMALL"), ("BIG", "SIZE"), ("BIG", "HUGE"),
+        ("BIG", "LARGE"), ("BIG", "SMALL"), ("BIG", "SIZE"), ("BIG", "HUGE"), ("BIG", "TINY"),
         ("SMALL", "LITTLE"), ("SMALL", "BIG"), ("SMALL", "TINY"), ("SMALL", "SIZE"),
+        ("LARGE", "SMALL"), ("LARGE", "TINY"), ("LARGE", "HUGE"), ("LARGE", "BIG"),
+        ("TINY", "SMALL"), ("TINY", "BIG"), ("TINY", "LARGE"), ("TINY", "HUGE"),
+        ("HUGE", "TINY"), ("HUGE", "SMALL"), ("HUGE", "BIG"), ("HUGE", "LARGE"),
         ("LONG", "SHORT"), ("LONG", "LENGTH"), ("LONG", "TIME"), ("LONG", "TALL"),
         ("SHORT", "LONG"), ("SHORT", "SMALL"), ("SHORT", "BRIEF"), ("SHORT", "HEIGHT"),
         ("TALL", "HIGH"), ("TALL", "SHORT"), ("TALL", "HEIGHT"), ("TALL", "LONG"),
