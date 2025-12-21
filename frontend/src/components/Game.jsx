@@ -42,8 +42,8 @@ function Game({
   if (!puzzle) {
     return (
       <div className={styles.loading}>
-        <span className={styles.loadingText}>loading puzzle</span>
-        <span className={styles.loadingDots}>...</span>
+        <div className={styles.loadingSpinner} />
+        <span className={styles.loadingText}>finding puzzle</span>
       </div>
     )
   }
@@ -51,30 +51,53 @@ function Game({
   const canSubmit = chain.length > 0
   const stepsUsed = chain.length
   const stepsRemaining = 6 - stepsUsed
+  const progressPercent = (stepsUsed / 6) * 100
 
   return (
     <div className={styles.game}>
-      {/* Puzzle display */}
+      {/* Puzzle Header */}
+      <div className={styles.puzzleHeader}>
+        <p className={styles.puzzleTitle}>connect these words</p>
+        <p className={styles.optimalHint}>
+          optimal path: <strong>{puzzle.optimal_length} steps</strong>
+        </p>
+      </div>
+
+      {/* Puzzle Display */}
       <div className={styles.puzzle}>
-        <div className={styles.wordContainer}>
-          <span className={styles.label}>from</span>
-          <span className={styles.word}>{puzzle.start_word}</span>
+        <div className={styles.wordBox}>
+          <span className={styles.wordLabel}>start</span>
+          <span className={styles.wordText}>{puzzle.start_word}</span>
         </div>
         
-        <div className={styles.arrow}>→</div>
+        <div className={styles.puzzleConnector}>
+          <div className={styles.connectorLine} />
+          <span className={styles.connectorSteps}>6 max</span>
+        </div>
         
-        <div className={styles.wordContainer}>
-          <span className={styles.label}>to</span>
-          <span className={styles.word}>{puzzle.end_word}</span>
+        <div className={styles.wordBox}>
+          <span className={styles.wordLabel}>goal</span>
+          <span className={styles.wordText}>{puzzle.end_word}</span>
         </div>
       </div>
 
-      {/* Hint about optimal path */}
-      <p className={styles.hint}>
-        shortest path: <strong>{puzzle.optimal_length}</strong> steps
-      </p>
+      {/* Progress Bar */}
+      <div className={styles.progress}>
+        <div className={styles.progressBar}>
+          <div 
+            className={`${styles.progressFill} ${stepsRemaining <= 1 ? styles.warning : ''}`}
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+        <div className={styles.progressText}>
+          <span>{stepsUsed} of 6 steps used</span>
+          <span className={`${styles.progressSteps} ${stepsRemaining <= 1 ? styles.warning : ''}`}>
+            {stepsRemaining} remaining
+          </span>
+        </div>
+      </div>
 
-      {/* Word chain visualization */}
+      {/* Word Chain Visualization */}
       <WordChain 
         startWord={puzzle.start_word}
         endWord={puzzle.end_word}
@@ -82,8 +105,8 @@ function Game({
         onRemoveWord={onRemoveWord}
       />
 
-      {/* Input area */}
-      <div className={styles.inputArea}>
+      {/* Input Section */}
+      <div className={styles.inputSection}>
         <form onSubmit={handleSubmitWord} className={styles.form}>
           <WordInput
             value={inputValue}
@@ -96,26 +119,23 @@ function Game({
           
           <button 
             type="submit" 
-            className={`btn ${styles.addBtn}`}
+            className={styles.addBtn}
             disabled={isLoading || !inputValue.trim()}
           >
-            add
+            add →
           </button>
         </form>
 
+        {/* Error Display */}
         {error && (
-          <p className={styles.error}>{error}</p>
+          <div className={styles.error}>
+            <span className={styles.errorIcon}>!</span>
+            <span>{error}</span>
+          </div>
         )}
-
-        {/* Steps counter */}
-        <div className={styles.steps}>
-          <span className={stepsRemaining <= 1 ? styles.stepsWarning : ''}>
-            {stepsRemaining} step{stepsRemaining !== 1 ? 's' : ''} remaining
-          </span>
-        </div>
       </div>
 
-      {/* Hint section */}
+      {/* Hint Section */}
       {hint && (
         <div className={styles.hintBox}>
           <div className={styles.hintHeader}>
@@ -129,6 +149,7 @@ function Game({
               ×
             </button>
           </div>
+          
           <p className={styles.hintText}>{hint.hint}</p>
           
           {/* Progressive letter reveal */}
@@ -137,7 +158,7 @@ function Game({
               {hint.masked_word.split('').map((char, i) => (
                 <span 
                   key={i} 
-                  className={char === '_' ? styles.hiddenLetter : styles.revealedLetter}
+                  className={`${styles.letter} ${char === '_' ? styles.hiddenLetter : styles.revealedLetter}`}
                 >
                   {char}
                 </span>
@@ -147,36 +168,38 @@ function Game({
           
           {hint.word_length && !hint.fully_revealed && (
             <p className={styles.hintMeta}>
-              {hint.word_length} letters • click hint again to reveal more
+              {hint.word_length} letters • tap hint again for more
             </p>
           )}
           
           {hint.fully_revealed && (
             <p className={styles.hintRevealed}>
-              ✓ Word fully revealed!
+              ✓ word revealed!
             </p>
           )}
           
           {hint.steps_remaining && (
             <p className={styles.hintSteps}>
-              {hint.steps_remaining} step{hint.steps_remaining !== 1 ? 's' : ''} to reach target
+              {hint.steps_remaining} step{hint.steps_remaining !== 1 ? 's' : ''} to target
             </p>
           )}
         </div>
       )}
 
-      {/* Action buttons */}
+      {/* Action Buttons */}
       <div className={styles.actions}>
         <button
-          className={`btn ${styles.hintBtn}`}
+          className={styles.hintBtn}
           onClick={onGetHint}
           disabled={isLoading || (hint && hint.fully_revealed)}
         >
-          💡 {hint ? 'more' : 'hint'} {hintsUsed > 0 && `(${hintsUsed})`}
+          <span>💡</span>
+          <span>{hint ? 'more' : 'hint'}</span>
+          {hintsUsed > 0 && <span>({hintsUsed})</span>}
         </button>
         
         <button
-          className={`btn btn--primary ${styles.submitBtn}`}
+          className={styles.submitBtn}
           onClick={onSubmit}
           disabled={!canSubmit || isLoading}
         >
@@ -188,4 +211,3 @@ function Game({
 }
 
 export default Game
-

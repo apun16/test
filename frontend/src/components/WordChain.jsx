@@ -53,7 +53,9 @@ function WordChain({ startWord, endWord, chain, onRemoveWord }) {
       {/* Empty state */}
       {chain.length === 0 && (
         <div className={styles.empty}>
+          <span className={styles.emptyIcon}>○─○─○</span>
           <span className={styles.emptyText}>your chain will appear here</span>
+          <span className={styles.emptyHint}>type a word to begin</span>
         </div>
       )}
     </div>
@@ -61,4 +63,3 @@ function WordChain({ startWord, endWord, chain, onRemoveWord }) {
 }
 
 export default WordChain
-

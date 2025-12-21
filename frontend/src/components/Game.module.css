@@ -1,81 +1,221 @@
+/* Game Page - Elegant Minimal Design */
+
 .game {
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
+  animation: fadeIn 0.5s ease;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state */
 .loading {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-md);
   color: var(--text-muted);
+  padding: var(--space-2xl);
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .loadingText {
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
 }
 
-.loadingDots {
-  animation: pulse 1.5s ease-in-out infinite;
+/* Puzzle Header */
+.puzzleHeader {
+  width: 100%;
+  text-align: center;
+  margin-bottom: var(--space-sm);
 }
 
+.puzzleTitle {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.optimalHint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.optimalHint strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Puzzle Display - The two words */
 .puzzle {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  padding: var(--space-lg);
-  background: var(--bg-card);
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-lg);
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  width: 100%;
-  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.wordContainer {
+/* Subtle background pattern */
+.puzzle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(232, 200, 122, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(232, 200, 122, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.wordBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  max-width: 160px;
+}
+
+.wordLabel {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  background: var(--bg-primary);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.wordText {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 30px rgba(232, 200, 122, 0.2);
+  text-align: center;
+  word-break: break-word;
+}
+
+/* Arrow connector */
+.puzzleConnector {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-xs);
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--space-sm);
 }
 
-.label {
+.connectorLine {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--text-muted) 50%, var(--accent) 100%);
+  border-radius: 1px;
+  position: relative;
+}
+
+.connectorLine::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 4px solid transparent;
+  border-left-color: var(--accent);
+}
+
+.connectorSteps {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+/* Progress indicator */
+.progress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0 var(--space-sm);
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--success) 100%);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.progressFill.warning {
+  background: linear-gradient(90deg, var(--accent) 0%, var(--error) 100%);
+}
+
+.progressText {
+  display: flex;
+  justify-content: space-between;
   font-size: 0.625rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
 }
 
-.word {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-style: italic;
-  color: var(--accent);
-  letter-spacing: 0.02em;
-}
-
-.arrow {
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-}
-
-.hint {
+.progressSteps {
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  text-align: center;
 }
 
-.hint strong {
-  color: var(--text-primary);
-  font-weight: 500;
+.progressSteps.warning {
+  color: var(--error);
 }
 
-.inputArea {
+/* Input Section */
+.inputSection {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -89,158 +229,69 @@
 
 .addBtn {
   flex-shrink: 0;
-}
-
-.error {
-  color: var(--error);
-  font-size: 0.75rem;
-  text-align: center;
-  animation: shake 0.3s ease;
-}
-
-.steps {
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.stepsWarning {
-  color: var(--error);
-}
-
-/* Hint box */
-.hintBox {
-  width: 100%;
-  padding: var(--space-md);
-  background: linear-gradient(135deg, rgba(232, 200, 122, 0.1) 0%, rgba(232, 200, 122, 0.05) 100%);
-  border: 1px solid var(--accent-dim);
-  border-radius: var(--radius-md);
-  animation: fadeIn 0.3s ease;
-}
-
-.hintHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
-}
-
-.hintIcon {
-  font-size: 1rem;
-}
-
-.hintTitle {
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--accent);
-  flex: 1;
-}
-
-.hintClose {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  color: var(--text-muted);
+  min-width: 80px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.hintClose:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.hintText {
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-/* Progressive letter reveal */
-.maskedWord {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  margin: var(--space-md) 0;
-  font-family: var(--font-mono);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-}
-
-.revealedLetter {
+.addBtn:hover:not(:disabled) {
+  border-color: var(--accent);
   color: var(--accent);
-  text-shadow: 0 0 8px rgba(232, 200, 122, 0.3);
-  animation: letterReveal 0.3s ease;
+  background: rgba(232, 200, 122, 0.05);
 }
 
-.hiddenLetter {
-  color: var(--text-muted);
-  opacity: 0.5;
-}
-
-@keyframes letterReveal {
-  from {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.hintMeta {
-  margin-top: var(--space-xs);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-.hintRevealed {
-  margin-top: var(--space-xs);
-  font-size: 0.75rem;
-  color: var(--success);
-  text-align: center;
-}
-
-.hintSteps {
-  margin-top: var(--space-xs);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-/* Action buttons */
-.actions {
-  display: flex;
-  gap: var(--space-md);
-  width: 100%;
-}
-
-.hintBtn {
-  flex: 0 0 auto;
-  padding: var(--space-md) var(--space-lg);
-}
-
-.submitBtn {
-  flex: 1;
-  padding: var(--space-md);
-}
-
-.submitBtn:disabled {
-  opacity: 0.5;
+.addBtn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-@keyframes fadeIn {
+/* Error message */
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(200, 122, 122, 0.1);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-size: 0.75rem;
+  animation: shake 0.3s ease;
+}
+
+.errorIcon {
+  font-size: 0.875rem;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Hint Box */
+.hintBox {
+  width: 100%;
+  padding: var(--space-lg);
+  background: linear-gradient(135deg, rgba(232, 200, 122, 0.08) 0%, rgba(232, 200, 122, 0.03) 100%);
+  border: 1px solid rgba(232, 200, 122, 0.2);
+  border-radius: var(--radius-lg);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -248,32 +299,201 @@
   }
 }
 
+.hintHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(232, 200, 122, 0.1);
+}
+
+.hintIcon {
+  font-size: 1.25rem;
+}
+
+.hintTitle {
+  flex: 1;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.hintClose {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  border-radius: 50%;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.hintClose:hover {
+  color: var(--text-primary);
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.hintText {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Masked word reveal */
+.maskedWord {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: var(--space-lg) 0;
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.letter {
+  width: 32px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+
+.revealedLetter {
+  background: rgba(232, 200, 122, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(232, 200, 122, 0.3);
+  animation: letterPop 0.3s ease;
+}
+
+.hiddenLetter {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+@keyframes letterPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hintMeta {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+}
+
+.hintRevealed {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--success);
+  font-weight: 500;
+  margin-top: var(--space-sm);
+}
+
+.hintSteps {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.hintBtn {
+  padding: var(--space-md) var(--space-lg);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.hintBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hintBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.submitBtn {
+  flex: 1;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--bg-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(232, 200, 122, 0.3);
+}
+
+.submitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive */
 @media (max-width: 480px) {
   .game {
-    gap: var(--space-lg);
+    gap: var(--space-md);
   }
   
   .puzzle {
-    gap: var(--space-sm);
-    padding: var(--space-md);
+    padding: var(--space-lg) var(--space-md);
     flex-wrap: wrap;
-    justify-content: center;
+    gap: var(--space-sm);
   }
   
-  .wordContainer {
-    min-width: 80px;
+  .wordText {
+    font-size: 1.35rem;
   }
   
-  .word {
-    font-size: 1.1rem;
+  .wordBox {
+    max-width: 120px;
   }
   
-  .label {
-    font-size: 0.5rem;
-  }
-  
-  .arrow {
-    font-size: 0.875rem;
+  .connectorLine {
+    width: 40px;
   }
   
   .form {
@@ -289,25 +509,33 @@
   }
   
   .hintBtn {
-    width: 100%;
-  }
-  
-  .hintBox {
-    padding: var(--space-sm);
+    justify-content: center;
   }
   
   .maskedWord {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+  }
+  
+  .letter {
+    width: 28px;
+    height: 36px;
   }
 }
 
 @media (max-width: 360px) {
-  .word {
-    font-size: 1rem;
+  .puzzle {
+    padding: var(--space-md);
   }
   
-  .puzzle {
-    padding: var(--space-sm);
+  .wordText {
+    font-size: 1.2rem;
+  }
+  
+  .puzzleConnector {
+    padding: 0;
+  }
+  
+  .connectorLine {
+    width: 30px;
   }
 }
-
