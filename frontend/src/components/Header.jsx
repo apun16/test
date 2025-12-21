@@ -29,10 +29,10 @@ function Header({ onHelpClick, onNewGame }) {
               <line x1="4" y1="20" x2="36" y2="20" />
             </svg>
           </div>
-          <h1 className={styles.title}>
+          {/* <h1 className={styles.title}>
             <span className={styles.six}>6</span>
             <span className={styles.degrees}>degrees</span>
-          </h1>
+          </h1> */}
         </div>
         
         <button 

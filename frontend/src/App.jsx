@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import Landing from './components/Landing'
 import Header from './components/Header'
 import Game from './components/Game'
 import Results from './components/Results'
@@ -12,6 +13,7 @@ import styles from './App.module.css'
  * Manages game state and view transitions.
  */
 function App() {
+  const [showLanding, setShowLanding] = useState(true)
   const [showHelp, setShowHelp] = useState(false)
   const [totalGames, setTotalGames] = useState(null)
   
@@ -45,6 +47,11 @@ function App() {
     fetchStats()
   }, [gameState]) // Refetch when game state changes (after submission)
 
+  const handlePlay = useCallback(() => {
+    setShowLanding(false)
+    startNewGame()
+  }, [startNewGame])
+
   const handleToggleHelp = useCallback(() => {
     setShowHelp(prev => !prev)
   }, [])
@@ -53,6 +60,11 @@ function App() {
     startNewGame()
     setShowHelp(false)
   }, [startNewGame])
+
+  // Show landing page
+  if (showLanding) {
+    return <Landing onPlay={handlePlay} />
+  }
 
   return (
     <div className={styles.app}>
@@ -86,7 +98,7 @@ function App() {
         </span>
         {totalGames !== null && (
           <span className={styles.gameCount}>
-            {totalGames.toLocaleString()} total game{totalGames !== 1 ? 's' : ''} played on this site!!!
+            {totalGames.toLocaleString()} game{totalGames !== 1 ? 's' : ''} played
           </span>
         )}
       </footer>
