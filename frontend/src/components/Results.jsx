@@ -83,26 +83,54 @@ function Results({ result, onPlayAgain }) {
   }
 
   const generateShareText = () => {
-    const emoji = getScoreEmoji()
+    // Create visual chain representation
+    const maxSteps = 6
+    const chainVisual = []
     
-    const chainEmojis = []
-    for (let i = 0; i < player_length; i++) {
-      chainEmojis.push('🟩')
+    // Build the visual grid
+    for (let i = 0; i < maxSteps; i++) {
+      if (i < player_length) {
+        if (!isValid) {
+          chainVisual.push('🟥') // Red for broken path
+        } else if (beatAlgorithm) {
+          chainVisual.push('🟪') // Purple for beating algorithm
+        } else if (player_length === optimal_length) {
+          chainVisual.push('🟩') // Green for perfect
+        } else if (i < optimal_length) {
+          chainVisual.push('🟨') // Yellow for optimal range
+        } else {
+          chainVisual.push('🟧') // Orange for extra steps
+        }
+      } else {
+        chainVisual.push('⬜') // Empty for unused
+      }
     }
     
-    const statusText = beatAlgorithm 
-      ? `Beat the algorithm! (${player_length} vs ${optimal_length})`
-      : player_length === optimal_length 
-        ? 'Perfect path!'
-        : `${player_length}/${optimal_length} steps`
+    // Status line with emoji
+    let statusLine = ''
+    if (!isValid) {
+      statusLine = '❌ Broken chain'
+    } else if (beatAlgorithm) {
+      statusLine = `🤖💥 Beat the algorithm!`
+    } else if (player_length === optimal_length) {
+      statusLine = '🎯 Perfect!'
+    } else {
+      statusLine = `📊 ${player_length}/${optimal_length} steps`
+    }
     
-    return `6° ${emoji} ${start_word} → ${end_word}
+    // Build the share text with visual flair
+    return `┌─────────────────┐
+│  6°  DEGREES    │
+└─────────────────┘
 
-${chainEmojis.join('')}
-${statusText}
-Score: ${score}
+${start_word} → ${end_word}
 
-sixdegrees.game`
+${chainVisual.join('')}
+
+${statusLine}
+⭐ Score: ${score}/110
+
+🔗 test-pearl-five-18.vercel.app`
   }
 
   const getMessage = () => {
