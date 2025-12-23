@@ -50,4 +50,13 @@ Thumbs.db
 # Misc
 *.bak
 *.tmp
+ 
+# Build
+
+# Virtual environment
+.venv/
+env/
+
+# Python
+
 
